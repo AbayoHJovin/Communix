@@ -1,16 +1,19 @@
-const { getDefaultConfig } = require('expo/metro-config');
+const { getDefaultConfig } = require("expo/metro-config");
 
 const config = getDefaultConfig(__dirname);
 
+// Add support for `.css` files
+config.resolver.assetExts.push("css");
+
+// Add support for `.svg` files
+config.resolver.assetExts = config.resolver.assetExts.filter((ext) => ext !== "svg");
+config.resolver.sourceExts.push("svg");
+
+// Configure SVG loader
 config.transformer = {
   ...config.transformer,
-  babelTransformerPath: require.resolve('react-native-tailwindcss-transformer'), // For TailwindCSS support
+  babelTransformerPath: require.resolve("react-native-svg-transformer"),
 };
 
-config.resolver = {
-  ...config.resolver,
-  assetExts: config.resolver.assetExts.filter((ext) => ext !== 'svg'),
-  sourceExts: [...config.resolver.sourceExts, 'svg', 'css'], // Add 'css' for Tailwind/PostCSS compatibility
-};
-
+// Enable Tailwind and other CSS features
 module.exports = config;

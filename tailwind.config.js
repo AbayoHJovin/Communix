@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}"],
+  // content: ["./app.{js,jsx,ts,tsx}", "./app/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./App.{js,ts,jsx,tsx}", // App.js or App.tsx file (or similar main entry files)
+    "./components/**/*.{js,ts,jsx,tsx}", // If you have a 'components' folder, include it
+    "./screens/**/*.{js,ts,jsx,tsx}", // If you have a 'screens' folder, include it
+    "./navigation/**/*.{js,ts,jsx,tsx}", // If you have a 'navigation' folder, include it
+    "./assets/**/*.{js,ts,jsx,tsx}" // If you have assets or images
+  ],
   theme: {
     extend: {
       colors: {

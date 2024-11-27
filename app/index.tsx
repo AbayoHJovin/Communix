@@ -11,11 +11,11 @@ import Signup from "./onBoarding/Signup";
 import Login from "./onBoarding/Login";
 import SlideProvider from "@/contexts/slideContext";
 import OnBoarding from "./onBoarding/onBoarding";
+import LandingPage from "./screens/LandingPage";
 
 export default function App() {
-  return (
-    <SlideProvider>
-      <OnBoarding />
-     </SlideProvider>
-  );
+  // <SlideProvider>
+  //   <OnBoarding />
+  //  </SlideProvider>
+  return <LandingPage />;
 }

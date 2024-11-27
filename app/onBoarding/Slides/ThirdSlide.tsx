@@ -2,6 +2,7 @@ import CheckMark from "@/assets/svg/CheckMark";
 import English from "@/assets/svg/English";
 import Kin from "@/assets/svg/Kin";
 import Svg1 from "@/assets/svg/svg1";
+import { Link } from "expo-router";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -49,7 +50,7 @@ export default function ThirdSlide() {
           activeOpacity={0.7}
           className="mt-20 w-[80%] bg-[#34C759] py-4 rounded-lg items-center"
         >
-          <Text className="text-white text-lg font-semibold">Next</Text>
+          <Link className="text-white text-lg font-semibold" href="/onBoarding/Signup">Next</Link>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

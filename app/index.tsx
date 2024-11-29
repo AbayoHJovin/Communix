@@ -12,10 +12,11 @@ import Login from "./onBoarding/Login";
 import SlideProvider from "@/contexts/slideContext";
 import OnBoarding from "./onBoarding/onBoarding";
 import LandingPage from "./screens/LandingPage";
+import "../global.css"
+import Home from "./(tabs)/Home";
+import TabsLayout from "./(tabs)/_layout";
+
 
 export default function App() {
-  // <SlideProvider>
-  //   <OnBoarding />
-  //  </SlideProvider>
-  return <LandingPage />;
+  return <Home/>
 }

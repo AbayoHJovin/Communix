@@ -19,9 +19,11 @@ interface Complaint {
   subtitle: string;
   location: string;
   backgroundImage: any;
+  leader:Object
 }
 
 const LandingPage = () => {
+  
   const complaints: Complaint[] = [
     {
       id: 1,
@@ -31,6 +33,7 @@ const LandingPage = () => {
         "Last week, when I left my herbs in the cowshed, it was stolen. I don't know what to do",
       location: "Kigali Gasabo, Rwanda",
       backgroundImage: require("../../assets/images/complaintImage.png"),
+      leader:{name:"Steve Bertin",responsibilities:"Mayor of Gasabo"}
     },
     {
       id: 2,
@@ -40,6 +43,7 @@ const LandingPage = () => {
         "Last week, when I left my herbs in the cowshed, it was stolen. I don't know what to do",
       location: "Kigali Gasabo, Rwanda",
       backgroundImage: require("../../assets/images/complaintImage.png"),
+      leader:{name:"Steve Bertin",responsibilities:"Mayor of Gasabo"}
     },
   ];
 

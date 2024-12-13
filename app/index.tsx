@@ -11,31 +11,17 @@ import Signup from "./onBoarding/Signup";
 import Login from "./onBoarding/Login";
 import SlideProvider from "@/contexts/slideContext";
 import OnBoarding from "./onBoarding/onBoarding";
-import LandingPage from "./screens/LandingPage";
-import "../global.css"
-import Home from "./(tabs)/Index";
+import "../global.css";
 import Profile from "./(tabs)/Profile";
 import TabLayout from "./(tabs)/_layout";
 import ComplaintExplanation from "./screens/ComplaintExplanation";
-
+import ComplaintsProvider from "@/contexts/complaintsContext";
+import Search from "./(tabs)/Search";
+import Home from "./(tabs)/Home";
 
 export default function App() {
-  return <Home/>
+  return (
+    // <ComplaintsProvider>
+      <Home />
+  );
 }
-
-
-
-
-
-// import React from "react";
-// import { Slot } from "expo-router"; // This renders child routes
-// import SlideProvider from "@/contexts/slideContext";
-// import "../global.css";
-
-// export default function App() {
-//   return (
-//     <SlideProvider>
-//       <Slot /> {/* Allows the router to render the appropriate screen */}
-//     </SlideProvider>
-//   );
-// }

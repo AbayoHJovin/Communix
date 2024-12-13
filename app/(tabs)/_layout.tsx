@@ -10,7 +10,7 @@ interface PropsDef {
 function TabIcon({ focused, name }: PropsDef) {
   return (
     <View className="items-center justify-center gap-2">
-      <View className="w-10 h-10 rounded-full bg-[#25B14C]">new</View>
+      {/* <View className="w-10 h-10 rounded-full bg-[#25B14C]">new</View> */}
       <Text
         className={`${
           focused ? "font-semibold" : "font-poppins-regular"
@@ -27,25 +27,25 @@ function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarShowLabel: false,
-          tabBarActiveTintColor: "#cf1717",
-          tabBarInactiveTintColor: "#cf1717",
+          tabBarActiveTintColor: "#FFFFFF",
+          tabBarInactiveTintColor: "#FFFFFF",
           tabBarStyle: {
             paddingVertical: 10,
             paddingHorizontal: 15,
             height: 90,
-            backgroundColor: "#cf1717",
+            backgroundColor: "#FFFFFF",
             borderTopWidth: 1,
-            borderTopColor: "#cf1717",
+            borderTopColor: "#FFFFFF",
           },
         }}
       >
         <Tabs.Screen
-          name="index"
+          name="Home"
           options={{
-            title: "index",
+            title: "Home",
             headerShown: false,
             tabBarIcon: ({ focused }) => (
-              <TabIcon focused={focused} name="index"/>
+              <TabIcon focused={focused} name="Home"/>
             ),
           }}
         />

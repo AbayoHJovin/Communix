@@ -69,6 +69,7 @@
 import React, { useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import ComplaintsProvider from "@/contexts/complaintsContext";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -96,18 +97,20 @@ export default function RootLayout() {
   }, [fontsLoaded]);
 
   if (!fontsLoaded) {
-    return null; // Render nothing while fonts are loading
+    return null;
   }
 
   return (
+    <ComplaintsProvider>
     <Stack>
       {/* Define your routes */}
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="onBoarding/onBoarding" options={{ headerShown: false }} />
       <Stack.Screen name="onBoarding/Signup" options={{ headerShown: false }} />
       <Stack.Screen name="onBoarding/Login" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)/_layout" options={{ headerShown: false }} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       <Stack.Screen name="screens/ComplaintExplanation" options={{ headerShown: false }} />
     </Stack>
+    </ComplaintsProvider>
   );
 }

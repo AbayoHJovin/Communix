@@ -1,4 +1,4 @@
-import { View, Text, ImageBackground, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, TouchableOpacity, ImageSourcePropType } from "react-native";
 import React from "react";
 import { TagIcon, MapPinIcon } from "react-native-heroicons/mini";
 import Tag from "@/assets/svg/Tag";
@@ -9,7 +9,7 @@ interface propsDef {
   subtitle: string;
   location: string;
   onClick: () => void;
-  complaintBackground: string;
+  complaintBackground: ImageSourcePropType;
 }
 const ComplaintComponent = ({
   date,
@@ -21,7 +21,7 @@ const ComplaintComponent = ({
   complaintBackground,
 }: propsDef) => {
   return (
-    <View className="p-5 bg-white mx-5 w-[274.84px] h-[350px] container rounded-lg shadow-sm">
+    <View className="p-5 bg-white  mx-5 w-[274.84px] h-[350px] container rounded-lg shadow-2xl">
       <ImageBackground
         source={complaintBackground}
         style={{

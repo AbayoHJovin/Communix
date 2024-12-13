@@ -3,7 +3,7 @@ import { Svg, Rect, Path } from 'react-native-svg';
 
 const SearchButton = () => {
   return (
-    <Svg width="53" height="51" viewBox="0 0 53 51" fill="none" >
+    <Svg width="50" height="46" viewBox="0 0 53 51" fill="none" >
       <Rect width="53" height="51" rx="12" fill="#F8F8F8" />
       <Rect x="0.5" y="0.5" width="52" height="50" rx="11.5" stroke="#FFFEFE" strokeOpacity="0.07" />
       <Path

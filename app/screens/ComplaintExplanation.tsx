@@ -1,6 +1,6 @@
 import RoundedImageGroup from "@/components/custom/RoundedImageGroup";
 import { router } from "expo-router";
-import { useLocalSearchParams, useSearchParams } from "expo-router/build/hooks";
+import { useLocalSearchParams } from "expo-router/build/hooks";
 import React, { useState } from "react";
 import {
   ScrollView,
@@ -11,31 +11,36 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { ArrowLeftIcon } from "react-native-heroicons/outline";
+import ComplaintOptions from "@/components/custom/ComplaintOptions";
 
 interface Leader {
   name: string;
   responsibilities: string;
 }
 
-interface ComplaintProps  {
+interface ComplaintProps {
   id: number;
   date: string;
-  day:string;
-  time:string
+  day: string;
+  time: string;
   title: string;
   subtitle: string;
   location: string;
   backgroundImage: any;
   leader: Leader;
 }
+
 const ComplaintDetails = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isModalVisible,setIsModalVisible]=useState(false)
   const params = useLocalSearchParams();
-
+  const toggleModal = () => {
+    setIsModalVisible(!isModalVisible);
+  };
   const complaint: ComplaintProps = params.complaint
     ? JSON.parse(params.complaint as string) // Cast and parse
     : null;
-  const content = complaint.subtitle
+  const content = complaint.subtitle;
   const maxLength = 400;
 
   const handleToggle = () => {
@@ -47,6 +52,7 @@ const ComplaintDetails = () => {
     isExpanded || !shouldTruncate
       ? content
       : content.slice(0, maxLength) + "...";
+
   return (
     <ScrollView className="bg-gray-50">
       <View className="relative">
@@ -71,13 +77,13 @@ const ComplaintDetails = () => {
                 Complaint Details
               </Text>
             </View>
-
-            <View>
-              <Image
-                source={require("../../assets/images/options.png")}
-                className="w-10 h-10"
-              />
-            </View>
+                  <TouchableOpacity onPress={toggleModal}>
+                    <Image
+                      source={require("../../assets/images/options.png")}
+                      className="w-10 h-10"
+                    />
+                  </TouchableOpacity>
+            <ComplaintOptions isModalVisible={isModalVisible} toggleModal={toggleModal} />
           </View>
         </ImageBackground>
 
@@ -87,7 +93,7 @@ const ComplaintDetails = () => {
       </View>
       <View className="mt-12 px-4 gap-y-7">
         <Text className="text-[25px] font-bold text-center">
-         { complaint.title}
+          {complaint.title}
         </Text>
         <View className="flex flex-row items-center gap-x-4">
           <Image
@@ -95,10 +101,10 @@ const ComplaintDetails = () => {
             className="w-16 h-16"
           />
           <View>
-            <Text className="text-lg font-semibold">
-              {complaint.date}
+            <Text className="text-lg font-semibold">{complaint.date}</Text>
+            <Text className="text-[#747688] font-semibold">
+              {complaint.day} , {complaint.time}
             </Text>
-            <Text className="text-[#747688] font-semibold">{complaint.day} , {complaint.time}</Text>
           </View>
         </View>
         <View className="flex flex-row items-center gap-x-4">
@@ -119,8 +125,12 @@ const ComplaintDetails = () => {
             className="w-16 h-16 rounded-xl"
           />
           <View>
-            <Text className="text-lg font-semibold">{complaint.leader.name}</Text>
-            <Text className="text-[#747688] font-semibold">{complaint.leader.responsibilities}</Text>
+            <Text className="text-lg font-semibold">
+              {complaint.leader.name}
+            </Text>
+            <Text className="text-[#747688] font-semibold">
+              {complaint.leader.responsibilities}
+            </Text>
           </View>
         </View>
         <View>

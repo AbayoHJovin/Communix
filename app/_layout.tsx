@@ -1,27 +1,21 @@
-// import { StyleSheet, Text, View } from "react-native";
-// import React, { useEffect } from "react";
+// import React, { useContext, useEffect } from "react";
 // import { SplashScreen, Stack } from "expo-router";
 // import { useFonts } from "expo-font";
-// import { StatusBar } from "expo-status-bar";
+// import ComplaintsProvider from "@/contexts/complaintsContext";
+// import CheckLeader, { LeaderContext } from "@/contexts/CheckLeader";
+// import { Text } from "react-native";
 
-// const RootLayout = () => {
+// export default function RootLayout() {
 //   const [fontsLoaded] = useFonts({
 //     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
 //     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
-//     "Poppins-ExtraBold": require("../assets/fonts/Poppins-ExtraBold.ttf"),
-//     "Poppins-ExtraLight": require("../assets/fonts/Poppins-ExtraLight.ttf"),
-//     "Poppins-Light": require("../assets/fonts/Poppins-Light.ttf"),
-//     "Poppins-Medium": require("../assets/fonts/Poppins-Medium.ttf"),
 //     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-//     "Poppins-SemiBold": require("../assets/fonts/Poppins-SemiBold.ttf"),
-//     "Poppins-Thin": require("../assets/fonts/Poppins-Thin.ttf"),
 //   });
 
 //   useEffect(() => {
 //     async function prepare() {
 //       try {
 //         if (!fontsLoaded) {
-//           // Prevent the splash screen from hiding prematurely
 //           await SplashScreen.preventAutoHideAsync();
 //         }
 //       } catch (e) {
@@ -36,47 +30,49 @@
 //   }, [fontsLoaded]);
 
 //   if (!fontsLoaded) {
-//     return null; // Render nothing while fonts are loading
+//     return null;
 //   }
-
+// const checkTheLeader = useContext(LeaderContext);
+// if(!checkTheLeader){
+//   return <Text>No context</Text>
+// }
+// const {isLeader}=checkTheLeader!;
+// function getScreens(){
 //   return (
-//     // <View>
 //     <Stack>
-//       <Stack.Screen name="index" options={{ headerShown: false }} />
-//       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-//       <Stack.Screen name="onBoarding/Signup" options={{ headerShown: false }} />
-//       <Stack.Screen name="onBoarding/Login" options={{ headerShown: false }} />
-//    {/* <StatusBar style="auto" /> */}
-//     </Stack>
-//     // {/* </View> */}
+//     <Stack.Screen name="index" options={{ headerShown: false }} />
+//     <Stack.Screen name="onBoarding/onBoarding" options={{ headerShown: false }} />
+//     <Stack.Screen name="onBoarding/Signup" options={{ headerShown: false }} />
+//     <Stack.Screen name="onBoarding/Login" options={{ headerShown: false }} />
+//     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+//     <Stack.Screen name="screens/ComplaintExplanation" options={{ headerShown: false }} />
+//   </Stack>
+//   )
+// }
+//   return (
+//     <CheckLeader>
+//     <ComplaintsProvider>
+//       {getScreens()}
+//     </ComplaintsProvider>
+//     </CheckLeader>
 //   );
-// };
-
-// export default RootLayout;
+// }
 
 
 
-
-
-
-
-
-
-
-
-
-
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
 import ComplaintsProvider from "@/contexts/complaintsContext";
+import CheckLeader, { LeaderContext } from "@/contexts/CheckLeader";
+import {CurrentUserContext, UsersProvider } from "@/contexts/CurrentUserContext";
+import { Text } from "react-native";
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
     "Poppins-Bold": require("../assets/fonts/Poppins-Bold.ttf"),
     "Poppins-Regular": require("../assets/fonts/Poppins-Regular.ttf"),
-    // Add other fonts as needed
   });
 
   useEffect(() => {
@@ -100,17 +96,43 @@ export default function RootLayout() {
     return null;
   }
 
+  const leaderContext = useContext(LeaderContext);
+  if (!leaderContext) {
+    return <Text>No leader context available</Text>;
+  }
+
+  const { isLeader } = leaderContext;
+
+  function getScreens() {
+    return (
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="onBoarding/onBoarding"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onBoarding/Signup"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="onBoarding/Login"
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="screens/ComplaintExplanation"
+          options={{ headerShown: false }}
+        />
+      </Stack>
+    );
+  }
+
   return (
-    <ComplaintsProvider>
-    <Stack>
-      {/* Define your routes */}
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="onBoarding/onBoarding" options={{ headerShown: false }} />
-      <Stack.Screen name="onBoarding/Signup" options={{ headerShown: false }} />
-      <Stack.Screen name="onBoarding/Login" options={{ headerShown: false }} />
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen name="screens/ComplaintExplanation" options={{ headerShown: false }} />
-    </Stack>
-    </ComplaintsProvider>
+    <CheckLeader>
+      <ComplaintsProvider>
+        <UsersProvider>{getScreens()}</UsersProvider>
+      </ComplaintsProvider>
+    </CheckLeader>
   );
 }

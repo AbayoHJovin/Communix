@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Community",
-    "slug": "Community",
+    "slug": "communix",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/splash-screen.png",
@@ -32,6 +32,21 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "6b400bf5-9bce-49cc-9fca-47723b854604"
+      }
+    },
+    "owner": "jovin_h",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6b400bf5-9bce-49cc-9fca-47723b854604"
     }
   }
 }

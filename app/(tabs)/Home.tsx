@@ -113,7 +113,7 @@ const Home = () => {
         <Text className="text-white text-base w-[16rem] leading-6">
           Take your time and add here your problem and it get solved{" "}
         </Text>
-        <TouchableOpacity className="bg-white px-4 py-4 w-[140px] items-center rounded-lg">
+        <TouchableOpacity activeOpacity={0.7} onPress={()=>router.push("/screens/AddComplaintScreen")} className="bg-white px-4 py-4 w-[140px] items-center rounded-lg">
           <Text className="text-[#25B14C] text-center font-poppinsSemibold">
             Add Complaint
           </Text>

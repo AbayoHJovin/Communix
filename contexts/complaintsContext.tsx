@@ -16,6 +16,7 @@ interface Complaint {
   location: string;
   backgroundImage: ImageSourcePropType;
   leader: Leader;
+  category: string;
 }
 
 export const ComplaintsContext = createContext<Complaint[] | undefined>(undefined);
@@ -37,6 +38,7 @@ const ComplaintsProvider: React.FC<ComplaintsProviderProps> = ({ children }) => 
       location: "Kigali Gasabo, Rwanda",
       backgroundImage: require("../assets/images/userImage.png"),
       leader: { name: "Steve Bertin", responsibilities: "Mayor of Gasabo" },
+      category: "Health",
     },
     {
       id: 2,
@@ -49,6 +51,7 @@ const ComplaintsProvider: React.FC<ComplaintsProviderProps> = ({ children }) => 
       location: "Kigali Gasabo, Rwanda",
       backgroundImage: require("../assets/images/complaintImage.png"),
       leader: { name: "Steve Bertin", responsibilities: "Mayor of Gasabo" },
+      category: "Security",
     },
   ];
 

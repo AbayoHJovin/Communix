@@ -77,7 +77,7 @@ const ComplaintDetails = () => {
                 Complaint Details
               </Text>
             </View>
-                  <TouchableOpacity onPress={toggleModal}>
+                  <TouchableOpacity onPress={toggleModal} accessible={true} accessibilityLabel="Options menu" accessibilityRole="button" > 
                     <Image
                       source={require("../../assets/images/options.png")}
                       className="w-10 h-10"

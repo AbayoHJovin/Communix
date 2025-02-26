@@ -1,153 +1,229 @@
-import React, { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NavigationContainer } from "@react-navigation/native";
+// import React, { useState, useEffect } from "react";
+// import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert } from "react-native";
+// import * as ImagePicker from "expo-image-picker";
+// import { Ionicons } from "@expo/vector-icons";
+
+// interface ComplaintData {
+//   image: string | null;
+//   title: string;
+//   description: string;
+//   date: Date | null;
+//   location: string;
+// }
+
+// interface AddComplaintScreenProps {
+//   navigation: any;
+// }
+
+// const AddComplaintScreen: React.FC<AddComplaintScreenProps> = ({ navigation }) => {
+//   const [step, setStep] = useState<number>(1);
+//   const [complaintData, setComplaintData] = useState<ComplaintData>({
+//     image: null,
+//     title: "",
+//     description: "",
+//     date: null,
+//     location: "",
+//   });
+//   const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
+
+//   useEffect(() => {
+//     (async () => {
+//       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+//       if (status !== "granted") {
+//         Alert.alert("Permission required", "Please allow access to the gallery to upload an image.");
+//       }
+//     })();
+//   }, []);
+
+//   const pickImage = async () => {
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1,
+//     });
+//     if (!result.canceled && result.assets) {
+//       setComplaintData((prev) => ({ ...prev, image: result.assets[0].uri }));
+//     }
+//   };
+
+//   const removeImage = () => {
+//     setComplaintData((prev) => ({ ...prev, image: null }));
+//   };
+
+//   const handleDateChange = (event: any, selectedDate?: Date) => {
+//     setShowDatePicker(false);
+//     if (selectedDate && selectedDate <= new Date()) {
+//       setComplaintData((prev) => ({ ...prev, date: selectedDate }));
+//     }
+//   };
+
+//   return (
+//     <ScrollView style={{ flex: 1, padding: 16 }}>
+//       <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 16 }}>Add New Complaint</Text>
+//       <View style={{ alignItems: "center" }}>
+//         {complaintData.image ? (
+//           <View style={{ position: "relative" }}>
+//             <Image source={{ uri: complaintData.image }} style={{ width: 200, height: 200, borderRadius: 12 }} />
+//             <TouchableOpacity onPress={removeImage} style={{ position: "absolute", top: 5, right: 5, backgroundColor: "#ff0000", borderRadius: 15, padding: 5 }}>
+//               <Ionicons name="trash" size={20} color="#fff" />
+//             </TouchableOpacity>
+//           </View>
+//         ) : (
+//           <TouchableOpacity onPress={pickImage} style={{ padding: 20, borderWidth: 1, borderRadius: 12, borderColor: "#ccc", alignItems: "center" }}>
+//             <Ionicons name="camera-outline" size={40} color="#666" />
+//             <Text style={{ marginTop: 8, color: "#666" }}>Upload Image</Text>
+//           </TouchableOpacity>
+//         )}
+//       </View>
+
+//       <View style={{ flexDirection: "row", justifyContent: "space-around", marginVertical: 16 }}>
+//         {["Title", "Description", "Others"].map((tab, index) => (
+//           <TouchableOpacity key={index} onPress={() => setStep(index + 1)} style={{ padding: 10, borderBottomWidth: 3, borderBottomColor: step === index + 1 ? "green" : "#ccc" }}>
+//             <Text style={{ fontSize: 16, color: step === index + 1 ? "green" : "#666" }}>{tab}</Text>
+//           </TouchableOpacity>
+//         ))}
+//       </View>
+
+//       {step === 1 && (
+//         <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc" }} placeholder="Enter complaint title" value={complaintData.title} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, title: text }))} />
+//       )}
+//       {step === 2 && (
+//         <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc", height: 100 }} placeholder="Enter complaint description" multiline value={complaintData.description} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, description: text }))} />
+//       )}
+//       {step === 3 && (
+//         <View>
+//           <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{ backgroundColor: "#4CAF50", borderRadius: 8, padding: 12, marginBottom: 10 }}>
+//             <Text style={{ color: "white", textAlign: "center" }}>Choose from Calendar</Text>
+//           </TouchableOpacity>
+//           <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc" }} placeholder="Enter location" value={complaintData.location} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, location: text }))} />
+//         </View>
+//       )}
+//     </ScrollView>
+//   );
+// };
+
+// export default AddComplaintScreen;
+
+
+
+
+
+import React, { useState, useEffect } from "react";
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert, Button } from "react-native";
+import * as ImagePicker from "expo-image-picker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Ionicons } from "@expo/vector-icons";
 
-const Tab = createBottomTabNavigator();
+interface ComplaintData {
+  image: string | null;
+  title: string;
+  description: string;
+  date: Date | null;
+  location: string;
+}
 
-const TitleScreen = ({ setComplaintData }: any) => {
-  const [title, setTitle] = useState("");
+interface AddComplaintScreenProps {
+  navigation: any;
+}
 
-  return (
-    <View className="flex-1 p-4">
-      <Text className="text-lg font-bold mb-2">
-        Enter the title of your complaint:
-      </Text>
-      <TextInput
-        className="border border-gray-300 rounded-md p-2"
-        placeholder="Title"
-        value={title}
-        onChangeText={(text) => setTitle(text)}
-      />
-      <TouchableOpacity
-        className="mt-4 bg-green-500 rounded-md p-2"
-        onPress={() => setComplaintData((prev: any) => ({ ...prev, title }))}
-      >
-        <Text className="text-white text-center">Save Title</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const DescriptionScreen = ({ setComplaintData }: any) => {
-  const [description, setDescription] = useState("");
-
-  return (
-    <View className="flex-1 p-4">
-      <Text className="text-lg font-bold mb-2">
-        Enter the description of your complaint:
-      </Text>
-      <TextInput
-        className="border border-gray-300 rounded-md p-2"
-        placeholder="Description"
-        value={description}
-        onChangeText={(text) => setDescription(text)}
-        multiline
-      />
-      <TouchableOpacity
-        className="mt-4 bg-green-500 rounded-md p-2"
-        onPress={() =>
-          setComplaintData((prev: any) => ({ ...prev, description }))
-        }
-      >
-        <Text className="text-white text-center">Save Description</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const OthersScreen = ({ setComplaintData }: any) => {
-  const [date, setDate] = useState("");
-  const [location, setLocation] = useState("");
-
-  return (
-    <View className="flex-1 p-4">
-      <Text className="text-lg font-bold mb-2">Date:</Text>
-      <TextInput
-        className="border border-gray-300 rounded-md p-2"
-        placeholder="Choose date"
-        value={date}
-        onChangeText={(text) => setDate(text)}
-      />
-      <Text className="text-lg font-bold mt-4 mb-2">Location:</Text>
-      <TextInput
-        className="border border-gray-300 rounded-md p-2"
-        placeholder="Enter location"
-        value={location}
-        onChangeText={(text) => setLocation(text)}
-      />
-      <TouchableOpacity
-        className="mt-4 bg-green-500 rounded-md p-2"
-        onPress={() =>
-          setComplaintData((prev: any) => ({ ...prev, date, location }))
-        }
-      >
-        <Text className="text-white text-center">Save Details</Text>
-      </TouchableOpacity>
-    </View>
-  );
-};
-
-const AddComplaintScreen = () => {
-  const [complaintData, setComplaintData] = useState({
+const AddComplaintScreen: React.FC<AddComplaintScreenProps> = ({ navigation }) => {
+  const [step, setStep] = useState<number>(3);
+  const [complaintData, setComplaintData] = useState<ComplaintData>({
+    image: null,
     title: "",
     description: "",
-    date: "",
+    date: null,
     location: "",
   });
+  const [showDatePicker, setShowDatePicker] = useState<boolean>(false);
 
-  const handlePostComplaint = () => {
-    console.log("Complaint Submitted:", complaintData);
-    // Submit the data to your backend API here
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("Permission required", "Please allow access to the gallery to upload an image.");
+      }
+    })();
+  }, []);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled && result.assets) {
+      setComplaintData((prev) => ({ ...prev, image: result.assets[0].uri }));
+    }
+  };
+
+  const removeImage = () => {
+    setComplaintData((prev) => ({ ...prev, image: null }));
+  };
+
+  const handleDateChange = (event: any, selectedDate?: Date) => {
+    setShowDatePicker(false);
+    if (selectedDate && selectedDate <= new Date()) {
+      setComplaintData((prev) => ({ ...prev, date: selectedDate }));
+    }
+  };
+
+  const isFormValid = () => {
+    return (
+      complaintData.image &&
+      complaintData.title.trim() !== "" &&
+      complaintData.description.trim() !== "" &&
+      complaintData.date !== null &&
+      complaintData.location.trim() !== ""
+    );
   };
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ color, size }) => {
-            let iconName:
-              | "document-text-outline"
-              | "chatbox-ellipses-outline"
-              | "options-outline" = "document-text-outline";
-            if (route.name === "Title") {
-              iconName = "document-text-outline";
-            } else if (route.name === "Description") {
-              iconName = "chatbox-ellipses-outline";
-            } else if (route.name === "Others") {
-              iconName = "options-outline";
-            }
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-      >
-        <Tab.Screen name="Title">
-          {() => <TitleScreen setComplaintData={setComplaintData} />}
-        </Tab.Screen>
-        <Tab.Screen name="Description">
-          {() => <DescriptionScreen setComplaintData={setComplaintData} />}
-        </Tab.Screen>
-        <Tab.Screen name="Others">
-          {() => <OthersScreen setComplaintData={setComplaintData} />}
-        </Tab.Screen>
-      </Tab.Navigator>
-      <View className="absolute bottom-8 left-4 right-4">
-        <TouchableOpacity
-          className="bg-green-500 rounded-md p-4"
-          onPress={handlePostComplaint}
-        >
-          <Text className="text-white text-center text-lg">Post Complaint</Text>
-        </TouchableOpacity>
+    <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: "center", alignItems: "center", padding: 16 }}>
+      <Text style={{ fontSize: 22, fontWeight: "bold", marginBottom: 16, color: "#3D3B3B" }}>Add New Complaint</Text>
+      <View style={{ width: "90%", alignItems: "center" }}>
+        {complaintData.image ? (
+          <View style={{ position: "relative", width: "100%" }}>
+            <Image source={{ uri: complaintData.image }} style={{ width: "100%", height: 250, borderRadius: 12, marginHorizontal: 16 }} />
+            <TouchableOpacity onPress={removeImage} style={{ position: "absolute", top: 5, right: 5, backgroundColor: "#ff0000", borderRadius: 15, padding: 5 }}>
+              <Ionicons name="trash" size={20} color="#fff" />
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity onPress={pickImage} style={{ padding: 20, borderWidth: 1, borderRadius: 12, borderColor: "#ccc", alignItems: "center" }}>
+            <Ionicons name="camera-outline" size={40} color="#666" />
+            <Text style={{ marginTop: 8, color: "#666" }}>Upload Image</Text>
+          </TouchableOpacity>
+        )}
       </View>
-    </NavigationContainer>
+
+      <View style={{ flexDirection: "row", justifyContent: "space-around", marginVertical: 16, width: "100%" }}>
+        {["Title", "Description", "Others"].map((tab, index) => (
+          <TouchableOpacity key={index} onPress={() => setStep(index + 1)} style={{ padding: 10, borderBottomWidth: 3, borderBottomColor: step === index + 1 ? "green" : "#ccc" }}>
+            <Text style={{ fontSize: 16, color: step === index + 1 ? "green" : "#3D3B3B" }}>{tab}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+
+      {step === 1 && (
+        <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc", width: "90%" }} placeholder="Enter complaint title" value={complaintData.title} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, title: text }))} />
+      )}
+      {step === 2 && (
+        <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc", height: 100, width: "90%" }} placeholder="Enter complaint description" multiline value={complaintData.description} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, description: text }))} />
+      )}
+      {step === 3 && (
+        <View style={{ width: "90%", alignItems: "center" }}>
+          <TouchableOpacity onPress={() => setShowDatePicker(true)} style={{ backgroundColor: "#4CAF50", borderRadius: 8, padding: 12, marginBottom: 10 }}>
+            <Text style={{ color: "white", textAlign: "center" }}>Choose from Calendar</Text>
+          </TouchableOpacity>
+          {showDatePicker && <DateTimePicker value={complaintData.date || new Date()} mode="date" display="default" maximumDate={new Date()} onChange={handleDateChange} />}
+          <TextInput style={{ borderWidth: 1, borderRadius: 8, padding: 10, borderColor: "#ccc", width: "100%" }} placeholder="Enter location" value={complaintData.location} onChangeText={(text) => setComplaintData((prev) => ({ ...prev, location: text }))} />
+        </View>
+      )}
+      <Button title="Save" onPress={() => Alert.alert("Complaint Saved")} disabled={!isFormValid()} color={isFormValid() ? "#4CAF50" : "#ccc"} />
+    </ScrollView>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactSVGElement, useState } from "react";
 import {
   View,
   Text,
@@ -12,9 +12,10 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import DatePicker from "react-native-date-picker"; // Add this library
+import HealthLogo from "@/assets/svg/Health";
 
 const categories = [
-  { id: "1", name: "Health", icon: "md-heart" },
+  { id: "1", name: "Health", icon: <HealthLogo/> },
   { id: "2", name: "Security", icon: "shield-checkmark" },
   { id: "3", name: "Entertainment", icon: "md-musical-notes" },
   { id: "4", name: "Nutrition", icon: "md-restaurant" },
@@ -113,13 +114,14 @@ const DropUp: React.FC<FilterProps> = ({
                   }`}
                   onPress={() => handleCategoryPress(item.id)}
                 >
-                  <Ionicons
-                    name={item.icon as any}
+                  {/* <Ionicons
+                    name={item.icon as ReactSVGElement}
                     size={24}
                     color={
                       selectedCategories.includes(item.id) ? "white" : "gray"
                     }
-                  />
+                  /> */}
+                  {item.icon}
                   <Text
                     className={`text-center mt-2 ${
                       selectedCategories.includes(item.id)
